@@ -1,4 +1,4 @@
-import src.app_cli as app
+import src.app as app
 
 def main():
     app.run()

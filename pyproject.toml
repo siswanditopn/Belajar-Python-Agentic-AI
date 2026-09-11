@@ -10,6 +10,7 @@ dependencies = [
     "markdown-pdf>=1.13.3",
     "pydantic>=2.13.5",
     "python-dotenv>=1.2.3",
+    "python-telegram-bot[job-queue]>=22.8",
     "supabase>=2.31.0",
     "telegramify-markdown>=1.2.0",
 ]

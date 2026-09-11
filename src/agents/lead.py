@@ -96,7 +96,7 @@ class LeadAgent:
 
         return evaluation_speaking_result
 
-    def handle_repot(self, user_id: int, username: str, start_date: str, end_date: str):
+    def handle_report(self, user_id: int, username: str, start_date: str, end_date: str):
         logger.info("[handle_report]")
         self.chat_repository.save_message(
             user_id=user_id,
