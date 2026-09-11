@@ -12,3 +12,4 @@ wheels/
 # Manual Setting
 .env
 *_backup.py
+src/output/*
