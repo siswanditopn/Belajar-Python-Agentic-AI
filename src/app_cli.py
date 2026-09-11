@@ -20,12 +20,14 @@ def run():
         if prompt.lower() == "/exit":
             break
 
-        response = lead_agent.handle_send_message(user_id=101010, message_text=prompt)
+        response = lead_agent.handle_send_message(user_id=101019, message_text=prompt)
         logger.debug(response)
 
         print(f"[AI]: {response["text"]}")
 
         if response["artifacts"]:
-            artifacts_data = response["artifacts"].data
+            artifacts_data = response["artifacts"]
+            # logger.debug(artifacts_data)
             for item in artifacts_data:
-                logger.info(f"lokasi artifact: {item["artifact"]}")
+                logger.info(f"lokasi artifact: {item["path"]}")
+            
