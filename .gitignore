@@ -13,3 +13,4 @@ wheels/
 .env
 *_backup.py
 src/output/*
+src/temp/*
