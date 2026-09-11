@@ -1,5 +1,3 @@
-import src.core.env as env
-
 from src.agents.lead import LeadAgent
 from loguru import logger
 
@@ -22,7 +20,7 @@ def run():
         if prompt.lower() == "/exit":
             break
 
-        response = lead_agent.handle_send_message(user_id=101013, message_text=prompt)
+        response = lead_agent.handle_send_message(user_id=101010, message_text=prompt)
         logger.debug(response)
 
         print(f"[AI]: {response["text"]}")
