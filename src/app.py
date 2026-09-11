@@ -75,6 +75,8 @@ async def report_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ),
         )
 
+    os.remove(report_file_path)
+
 async def _send_artifact(update: Update, artifact: Artifact):
     artifact_path = artifact.get("path")
     kind = artifact.get("kind")
