@@ -1,0 +1,15 @@
+[project]
+name = "mentor-bahasa-inggris-virtual"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "google-genai>=2.22.0",
+    "loguru>=0.7.3",
+    "markdown-pdf>=1.13.3",
+    "pydantic>=2.13.5",
+    "python-dotenv>=1.2.3",
+    "supabase>=2.31.0",
+    "telegramify-markdown>=1.2.0",
+]
