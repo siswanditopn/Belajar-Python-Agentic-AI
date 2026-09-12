@@ -18,7 +18,7 @@ from telegram.ext import (
 
 from telegram.constants import ParseMode # MarkdownV2
 from loguru import logger
-from datetime import time, date, timedelta # Generate - per 1 minggu / 7 hari
+from datetime import time, date, timedelta, datetime # Generate - per 1 minggu / 7 hari
 
 from src.agents.lead import LeadAgent
 from src.repository.chat_repository import ChatRepository
@@ -26,6 +26,7 @@ from src.core.format import to_telegram_markdown
 from src.core.artifacts import Artifact
 
 timezone = ZoneInfo("Asia/Jayapura") # WIT
+hoursnow = int(datetime.now(timezone).strftime("%H"))
 
 chat_repository = ChatRepository()
 lead_agent = LeadAgent()
@@ -150,7 +151,21 @@ async def task_reminder(context: ContextTypes.DEFAULT_TYPE):
 
     for user in users.data:
         user_id = user["user_id"]
-        message = f"Selamat pagi! ☀️ Yuk, luangkan 5 menit untuk latihan {random.choice(skill_types)} hari ini."
+
+        logger.info(f"Saat ini pukul {hoursnow} WIT")
+        sapaan_waktu = ""
+        if hoursnow <= 10:
+            sapaan_waktu = "Selamat pagi! ☀️"
+        elif 10 < hoursnow < 15:
+            sapaan_waktu = "Selamat siang! ☀️"
+        elif 15 <= hoursnow < 18:
+            sapaan_waktu = "Selamat sore!"
+        elif hoursnow >= 18:
+            sapaan_waktu = "Selamat malam!"
+
+        message = f"{sapaan_waktu} Yuk, luangkan 5 menit untuk latihan {random.choice(skill_types)} hari ini."
+        logger.info(message)
+
         chat_repository.save_message(
             user_id=user_id,
             role="model",
