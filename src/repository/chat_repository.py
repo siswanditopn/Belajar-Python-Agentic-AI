@@ -70,4 +70,4 @@ class ChatRepository:
         return result
 
     def get_users(self):
-        return self.supabase.table("chat_users").select("user_id", "username").execute()
+        return self.supabase.table("chat_users").select("user_id", "username", "get_reminder").execute()

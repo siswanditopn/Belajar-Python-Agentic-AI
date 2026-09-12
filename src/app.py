@@ -153,27 +153,29 @@ async def task_reminder(context: ContextTypes.DEFAULT_TYPE):
     for user in users.data:
         user_id = user["user_id"]
         username = user["username"]
+        get_reminder = user["get_reminder"]
         
         sapaan_waktu = "" # Backup jika sistem mendetaksi di luar if
         if hoursnow <= 10:
             sapaan_waktu = f"Selamat pagi, {username}! ☀️"
         elif 10 < hoursnow < 15:
-            sapaan_waktu = "Selamat siang, {username}! ☀️"
+            sapaan_waktu = f"Selamat siang, {username}! ☀️"
         elif 15 <= hoursnow < 18:
-            sapaan_waktu = "Selamat sore, {username}!"
+            sapaan_waktu = f"Selamat sore, {username}!"
         elif hoursnow >= 18:
-            sapaan_waktu = "Selamat malam, {username}!"
+            sapaan_waktu = f"Selamat malam, {username}!"
 
         message = f"{sapaan_waktu} Yuk, luangkan 5 menit untuk latihan {random.choice(skill_types)} hari ini."
-        logger.info(message)
 
-        chat_repository.save_message(
-            user_id=user_id,
-            role="model",
-            message_text=message
-        )
-        safe_text = to_telegram_markdown(message)
-        await context.bot.send_message(chat_id=user_id, text=safe_text)
+        if get_reminder == True:
+            logger.info(message)
+            chat_repository.save_message(
+                user_id=user_id,
+                role="model",
+                message_text=message
+            )
+            safe_text = to_telegram_markdown(message)
+            await context.bot.send_message(chat_id=user_id, text=safe_text)
 
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.error(f"Error: {context.error}")
@@ -194,7 +196,7 @@ def run():
     app.add_handler(MessageHandler(filters.VOICE, handle_voice))
 
     # Fitur reminder
-    target_time = time(hour=8, minute=0, second=0, tzinfo=timezone)
+    target_time = time(hour=19, minute=6, second=0, tzinfo=timezone)
     app.job_queue.run_daily(callback=task_reminder, time=target_time, name="task_reminder")
     # app.job_queue.run_repeating(callback=task_reminder, interval=5, first=0)
 
