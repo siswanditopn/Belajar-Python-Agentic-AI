@@ -149,19 +149,20 @@ async def task_reminder(context: ContextTypes.DEFAULT_TYPE):
     users = chat_repository.get_users()
     skill_types = ["reading", "writing", "listening", "speaking"]
 
+    logger.info(f"Saat ini pukul {hoursnow} WIT")
     for user in users.data:
         user_id = user["user_id"]
-
-        logger.info(f"Saat ini pukul {hoursnow} WIT")
-        sapaan_waktu = ""
+        username = user["username"]
+        
+        sapaan_waktu = "" # Backup jika sistem mendetaksi di luar if
         if hoursnow <= 10:
-            sapaan_waktu = "Selamat pagi! ☀️"
+            sapaan_waktu = f"Selamat pagi, {username}! ☀️"
         elif 10 < hoursnow < 15:
-            sapaan_waktu = "Selamat siang! ☀️"
+            sapaan_waktu = "Selamat siang, {username}! ☀️"
         elif 15 <= hoursnow < 18:
-            sapaan_waktu = "Selamat sore!"
+            sapaan_waktu = "Selamat sore, {username}!"
         elif hoursnow >= 18:
-            sapaan_waktu = "Selamat malam!"
+            sapaan_waktu = "Selamat malam, {username}!"
 
         message = f"{sapaan_waktu} Yuk, luangkan 5 menit untuk latihan {random.choice(skill_types)} hari ini."
         logger.info(message)
