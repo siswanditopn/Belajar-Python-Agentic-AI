@@ -1,7 +1,7 @@
-import src.app as app
+from fastapi import FastAPI, Request, Response, status
 
-def main():
-    app.run()
+app = FastAPI()
 
-if __name__ == "__main__":
-    main()
+@app.get("/testing-root")
+async def root():
+    return {"status": "ok"}

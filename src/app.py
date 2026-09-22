@@ -37,12 +37,13 @@ bot_config = Defaults(parse_mode=ParseMode.MARKDOWN_V2, tzinfo=timezone)
 async def start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.message.from_user.id
     username = update.message.from_user.username
+    fullname = update.message.from_user.full_name
     chat_id = update.effective_chat.id
 
-    chat_repository.save_user(user_id=user_id, username=username, chat_id=chat_id)
+    chat_repository.save_user(user_id=user_id, username=username, fullname=fullname, chat_id=chat_id)
 
     safe_text = to_telegram_markdown(
-        f"Halo! Selamat datang {username} di Mentor Bahasa Inggris Virtual.\n"
+        f"Halo! Selamat datang {fullname} di Mentor Bahasa Inggris Virtual.\n"
         "Aku siap bantu kamu untuk belajar Bahasa Inggris! \n"
         "Kamu bisa langsung coba ketik pesan seperti ini: \n"
         "- *buatkan soal reading*\n"
@@ -153,17 +154,18 @@ async def task_reminder(context: ContextTypes.DEFAULT_TYPE):
     for user in users.data:
         user_id = user["user_id"]
         username = user["username"]
+        fullname = user["fullname"]
         get_reminder = user["get_reminder"]
         
         sapaan_waktu = "" # Backup jika sistem mendetaksi di luar if
         if hoursnow <= 10:
-            sapaan_waktu = f"Selamat pagi, {username}! ☀️"
+            sapaan_waktu = f"Selamat pagi, {fullname}! ☀️"
         elif 10 < hoursnow < 15:
-            sapaan_waktu = f"Selamat siang, {username}! ☀️"
+            sapaan_waktu = f"Selamat siang, {fullname}! ☀️"
         elif 15 <= hoursnow < 18:
-            sapaan_waktu = f"Selamat sore, {username}!"
+            sapaan_waktu = f"Selamat sore, {fullname}!"
         elif hoursnow >= 18:
-            sapaan_waktu = f"Selamat malam, {username}!"
+            sapaan_waktu = f"Selamat malam, {fullname}!"
 
         message = f"{sapaan_waktu} Yuk, luangkan 5 menit untuk latihan {random.choice(skill_types)} hari ini."
 
@@ -196,7 +198,7 @@ def run():
     app.add_handler(MessageHandler(filters.VOICE, handle_voice))
 
     # Fitur reminder
-    target_time = time(hour=19, minute=6, second=0, tzinfo=timezone)
+    target_time = time(hour=8, minute=0, second=0, tzinfo=timezone)
     app.job_queue.run_daily(callback=task_reminder, time=target_time, name="task_reminder")
     # app.job_queue.run_repeating(callback=task_reminder, interval=5, first=0)
 

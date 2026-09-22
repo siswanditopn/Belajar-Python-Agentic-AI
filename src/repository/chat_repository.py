@@ -26,7 +26,7 @@ class ChatRepository:
 
         return result
 
-    def save_user(self, user_id: int, username: str, chat_id: int):
+    def save_user(self, user_id: int, username: str, fullname: str, chat_id: int):
         exist_user = (
             self.supabase.table("chat_users")
             .select("user_id")
@@ -40,7 +40,7 @@ class ChatRepository:
 
         result = (
             self.supabase.table("chat_users")
-            .insert({"user_id": user_id, "username": username, "chat_id": chat_id})
+            .insert({"user_id": user_id, "username": username, "chat_id": chat_id, "fullname": fullname})
             .execute()
         )
 
@@ -70,4 +70,4 @@ class ChatRepository:
         return result
 
     def get_users(self):
-        return self.supabase.table("chat_users").select("user_id", "username", "get_reminder").execute()
+        return self.supabase.table("chat_users").select("user_id", "username", "fullname", "get_reminder").execute()
